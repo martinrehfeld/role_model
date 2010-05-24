@@ -1,16 +1,78 @@
-= role_model
+= RoleModel
 
-Description goes here.
+Ever needed to assign roles to a model, say a User, and build conditional
+behaviour on top of that?
+
+Enter RoleModel -- roles have never been easier! No need to build a separate
+Role model, managing seed data and the like. Just declare your roles and you
+are done.
+
+Assigned roles will be stored as a bitmask in an configurable attribute
+(default: <tt>roles_mask</tt>). Here's everything you need to know:
+
+  # given an User class with a roles_mask attribute
+  class User
+    attr_accessor :roles_mask # in real life this would be an persisted attribute / DB-column
+    
+    include RoleModel
+    # optionally set the integer attribute to store the roles in,
+    # :roles_mask is the default
+    roles_attribute :roles_mask
+    
+    # declare the valid roles -- do not change the order if you add more
+    # roles later, always append them at the end!
+    roles :admin, :manager, :author
+  end
+  
+  >> u = User.new
+  => #<User ...>
+
+  >> u.roles = [:admin] # ['admin'] works as well
+  => [:admin]
+
+  >> u.roles # aliased to role_symbols for DeclarativeAuthorization
+  => [:admin]
+  
+  >> u.has_role? :manager
+  => false
+  
+  >> u.has_role? :admin
+  => true
+  
+  >> u.roles_mask
+  => 1
+
+Once you have included RoleModel, your model is perfectly fit to be used
+together with an role-based authorization solution, such as
+http://github.com/ryanb/cancan or
+http://github.com/stffn/declarative_authorization .
+
+== Reasoning
+
+Whenever I introduce a role-based authorization scheme into a project, the
+code gets coupled somehow to the available roles. So it usually does not make
+any sense to have a separate Role model stored within the database. This Role
+model will contain a predefined set of roles anyhow -- changing that set will
+need to be reflected within the authorization code. Putting the available
+roles right into the model that actually uses them, makes things much easier
+and efficient.
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
   future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Commit, do not mess with Rakefile, version, or history.
+  (if you want to have your own version, that is fine but bump version in a
+  commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
+
+== Credits
+
+RoleModel is an implementation of the Role Based Authorization scheme
+proposed by Ryan Bates
+(http://wiki.github.com/ryanb/cancan/role-based-authorization).
 
 == Copyright
 

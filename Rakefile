@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "role_model"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Declare, assign and query roles with ease}
+    gem.description = %Q{Ever needed to assign roles to a model, say a User, and build conditional behaviour on top of that? Enter RoleModel -- roles have never been easier! Just declare your roles and you are done. Assigned roles will be stored as a bitmask.}
     gem.email = "martin.rehfeld@glnetworks.de"
     gem.homepage = "http://github.com/martinrehfeld/role_model"
     gem.authors = ["Martin Rehfeld"]
