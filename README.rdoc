@@ -10,7 +10,10 @@ are done.
 Assigned roles will be stored as a bitmask in an configurable attribute
 (default: <tt>roles_mask</tt>). Here's everything you need to know:
 
-  # given an User class with a roles_mask attribute
+  # given a User class with a roles_mask attribute
+  require 'rubygems'
+  require 'role_model'
+
   class User
     attr_accessor :roles_mask # in real life this would be an persisted attribute / DB-column
     
@@ -43,7 +46,7 @@ Assigned roles will be stored as a bitmask in an configurable attribute
   => 1
 
 Once you have included RoleModel, your model is perfectly fit to be used
-together with an role-based authorization solution, such as
+together with a role-based authorization solution, such as
 http://github.com/ryanb/cancan or
 http://github.com/stffn/declarative_authorization .
 
