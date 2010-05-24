@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/role_model.rb",
+     "role_model.gemspec",
      "spec/role_model_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
