@@ -47,6 +47,10 @@ together with an role-based authorization solution, such as
 http://github.com/ryanb/cancan or
 http://github.com/stffn/declarative_authorization .
 
+== Installation
+
+  gem install role_model
+
 == Reasoning
 
 Whenever I introduce a role-based authorization scheme into a project, the
