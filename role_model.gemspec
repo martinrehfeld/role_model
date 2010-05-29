@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{role_model}
-  s.version = "0.2.0"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Martin Rehfeld"]
-  s.date = %q{2010-05-25}
+  s.date = %q{2010-05-29}
   s.description = %q{Ever needed to assign roles to a model, say a User, and build conditional behaviour on top of that? Enter RoleModel -- roles have never been easier! Just declare your roles and you are done. Assigned roles will be stored as a bitmask.}
   s.email = %q{martin.rehfeld@glnetworks.de}
   s.extra_rdoc_files = [
@@ -24,8 +24,10 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/role_model.rb",
+     "lib/role_model/roles.rb",
      "role_model.gemspec",
      "spec/role_model_spec.rb",
+     "spec/roles_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
@@ -36,6 +38,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Declare, assign and query roles with ease}
   s.test_files = [
     "spec/role_model_spec.rb",
+     "spec/roles_spec.rb",
      "spec/spec_helper.rb"
   ]
 
