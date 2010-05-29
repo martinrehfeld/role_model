@@ -1,7 +1,7 @@
 module CustomMatchers
   class ArrayIncludingMatcher
     def initialize(*expected)
-      @expected = Array[*expected].flatten
+      @expected = Array[*expected]
     end
 
     def ==(actual)

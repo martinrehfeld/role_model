@@ -6,7 +6,7 @@ describe RoleModel::Roles do
   let(:array) { [:foo, :bar] }
   subject { RoleModel::Roles.new(model_instance, array) }
 
-  its(:model_instance) { should == model_instance }
+  its(:model_instance) { should equal(model_instance) }
   it { should include(:foo, :bar) }
   it { should respond_to(:each) }
 

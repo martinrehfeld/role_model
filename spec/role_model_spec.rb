@@ -181,7 +181,7 @@ describe RoleModel do
   end
 
   [:has_role?, :is_a?].each do |check_role_assignment_method|
-    describe "##{check_role_assignment_method}?" do
+    describe "##{check_role_assignment_method}" do
       subject { model_class.new }
 
       it "should return true when the given role was assigned" do
