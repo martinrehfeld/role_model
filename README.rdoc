@@ -3,12 +3,8 @@
 Ever needed to assign roles to a model, say a User, and build conditional
 behaviour on top of that?
 
-Enter RoleModel -- roles have never been easier! No need to build a separate
-Role model, managing seed data and the like. Just declare your roles and you
-are done.
-
 Assigned roles will be stored as a bitmask in an configurable attribute
-(default: <tt>roles_mask</tt>). Here's everything you need to know:
+(default: <tt>roles_mask</tt>). Here's how to get started:
 
   # given a User class with a roles_mask attribute
   require 'rubygems'
@@ -18,6 +14,7 @@ Assigned roles will be stored as a bitmask in an configurable attribute
     attr_accessor :roles_mask # in real life this would be an persisted attribute / DB-column
     
     include RoleModel
+
     # optionally set the integer attribute to store the roles in,
     # :roles_mask is the default
     roles_attribute :roles_mask
@@ -27,23 +24,36 @@ Assigned roles will be stored as a bitmask in an configurable attribute
     roles :admin, :manager, :author
   end
   
+  #
+  # Test drive
+  #
+
   >> u = User.new
   => #<User ...>
 
+  # role assignment
   >> u.roles = [:admin] # ['admin'] works as well
   => [:admin]
 
+  # adding roles
+  >> u.roles << :manager
+  => [:admin, :manager]
+  
+  # quering roles...
+
+  # ... retrieve all assigned roles
   >> u.roles # aliased to role_symbols for DeclarativeAuthorization
-  => [:admin]
-  
-  >> u.has_role? :manager
+  => [:admin, :manager]
+
+  # ... check for individual roles
+  >> u.has_role? :author
   => false
-  
   >> u.has_role? :admin
   => true
-  
+
+  # see the internal bitmask representation (3 = 0b0011)
   >> u.roles_mask
-  => 1
+  => 3
 
 Once you have included RoleModel, your model is perfectly fit to be used
 together with a role-based authorization solution, such as

@@ -9,7 +9,7 @@ describe RoleModel do
       attr_accessor :roles_mask
       attr_accessor :custom_roles_mask
       include RoleModel
-      roles :foo, :bar
+      roles :foo, :bar, :third
     end
   end
 
@@ -126,6 +126,53 @@ describe RoleModel do
         subject.roles.should include(:bar)
         subject.should have(1).roles
       end
+    end
+  end
+
+  describe "#<<" do
+    subject { model_class.new }
+
+    context "with roles :foo and :bar already assigned" do
+      before(:each) do
+        subject.roles = [:foo, :bar]
+      end
+
+      it "should add a role given as a symbol" do
+        subject.roles << :third
+        subject.roles.should include(:foo, :bar, :third)
+        subject.should have(3).roles
+      end
+
+      it "should add a role given as a string" do
+        subject.roles << 'third'
+        subject.roles.should include(:foo, :bar, :third)
+        subject.should have(3).roles
+      end
+    end
+
+    context "without any previouly assigned roles" do
+      it "should add a single symbol" do
+        subject.roles << :foo
+        subject.roles.should include(:foo)
+        subject.should have(1).roles
+      end
+
+      it "should add a single string" do
+        subject.roles << 'foo'
+        subject.roles.should include(:foo)
+        subject.should have(1).roles
+      end
+
+      it "should allow chaining of <<" do
+        subject.roles << :foo << :bar
+        subject.roles.should include(:foo, :bar)
+        subject.should have(2).roles
+      end
+    end
+
+    it "should silently ignore undefined roles" do
+      subject.roles << :baz
+      subject.roles.should be_empty
     end
   end
 

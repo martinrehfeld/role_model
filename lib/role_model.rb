@@ -1,3 +1,5 @@
+require 'role_model/roles'
+
 module RoleModel
 
   INHERITABLE_CLASS_ATTRIBUTES = [:roles_attribute_name, :valid_roles]
@@ -18,7 +20,7 @@ module RoleModel
 
     # query assigned roles
     def roles
-      self.class.valid_roles.reject { |r| ((self.send(self.class.roles_attribute_name) || 0) & 2**self.class.valid_roles.index(r)).zero? }
+      Roles.new(self, self.class.valid_roles.reject { |r| ((self.send(self.class.roles_attribute_name) || 0) & 2**self.class.valid_roles.index(r)).zero? })
     end
     alias role_symbols roles
 
