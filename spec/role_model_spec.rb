@@ -113,6 +113,20 @@ describe RoleModel do
       subject.roles = :baz
       subject.roles.should be_empty
     end
+
+    context "with previouly assigned roles" do
+      before(:each) do
+        subject.roles = :foo
+        subject.roles.should include(:foo)
+        subject.should have(1).roles
+      end
+
+      it "should set set assigned roles regardless overwriting previouly assigned roles" do
+        subject.roles = :bar
+        subject.roles.should include(:bar)
+        subject.should have(1).roles
+      end
+    end
   end
 
   describe "#has_role?" do
