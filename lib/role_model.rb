@@ -6,7 +6,7 @@ module RoleModel
     base.extend ClassMethods
     base.class_eval do
       class << self
-        attr_accessor *::RoleModel::INHERITABLE_CLASS_ATTRIBUTES
+        attr_accessor(*::RoleModel::INHERITABLE_CLASS_ATTRIBUTES)
       end
       roles_attribute :roles_mask
     end
