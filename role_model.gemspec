@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{role_model}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Martin Rehfeld"]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
      "lib/role_model.rb",
      "lib/role_model/roles.rb",
      "role_model.gemspec",
+     "spec/custom_matchers.rb",
      "spec/role_model_spec.rb",
      "spec/roles_spec.rb",
      "spec/spec.opts",
@@ -37,7 +38,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Declare, assign and query roles with ease}
   s.test_files = [
-    "spec/role_model_spec.rb",
+    "spec/custom_matchers.rb",
+     "spec/role_model_spec.rb",
      "spec/roles_spec.rb",
      "spec/spec_helper.rb"
   ]
