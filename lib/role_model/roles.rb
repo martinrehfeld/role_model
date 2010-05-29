@@ -1,5 +1,7 @@
+require 'set'
+
 module RoleModel
-  class Roles < Array
+  class Roles < ::Set
     attr_reader :model_instance
 
     def initialize(sender, *roles)
@@ -8,7 +10,8 @@ module RoleModel
     end
 
     def <<(role)
-      model_instance.roles = super
+      model_instance.roles = super.to_a
+      self
     end
   end
 end

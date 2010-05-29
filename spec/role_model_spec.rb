@@ -148,6 +148,10 @@ describe RoleModel do
         subject.roles.should include(:foo, :bar, :third)
         subject.should have(3).roles
       end
+
+      it "should not show a role twice in the return value" do
+        (subject.roles << :foo).should have(2).roles
+      end
     end
 
     context "without any previouly assigned roles" do
@@ -168,11 +172,11 @@ describe RoleModel do
         subject.roles.should include(:foo, :bar)
         subject.should have(2).roles
       end
-    end
 
-    it "should silently ignore undefined roles" do
-      subject.roles << :baz
-      subject.roles.should be_empty
+      it "should silently ignore undefined roles" do
+        subject.roles << :baz
+        subject.roles.should be_empty
+      end
     end
   end
 
