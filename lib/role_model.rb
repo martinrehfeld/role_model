@@ -28,6 +28,7 @@ module RoleModel
     def has_role?(role)
       roles.include?(role.to_sym)
     end
+    alias is_a? has_role?
   end
 
   module ClassMethods

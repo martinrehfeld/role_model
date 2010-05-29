@@ -176,26 +176,28 @@ describe RoleModel do
     end
   end
 
-  describe "#has_role?" do
-    subject { model_class.new }
+  [:has_role?, :is_a?].each do |check_role_assignment_method|
+    describe "##{check_role_assignment_method}?" do
+      subject { model_class.new }
 
-    it "should return true when the given role was assigned" do
-      subject.roles = :foo
-      subject.should have_role(:foo)
-    end
+      it "should return true when the given role was assigned" do
+        subject.roles = :foo
+        subject.send(check_role_assignment_method, :foo).should be_true
+      end
 
-    it "should return false when the given role was not assigned" do
-      subject.roles = :bar
-      subject.should_not have_role(:foo)
-    end
+      it "should return false when the given role was not assigned" do
+        subject.roles = :bar
+        subject.send(check_role_assignment_method, :foo).should be_false
+      end
 
-    it "should return false when no role was assigned" do
-      subject.should_not have_role(:foo)
-      subject.should_not have_role(:bar)
-    end
+      it "should return false when no role was assigned" do
+        subject.send(check_role_assignment_method, :foo).should be_false
+        subject.send(check_role_assignment_method, :bar).should be_false
+      end
 
-    it "should return false when asked for an undefined role" do
-      subject.should_not have_role(:baz)
+      it "should return false when asked for an undefined role" do
+        subject.send(check_role_assignment_method, :baz).should be_false
+      end
     end
   end
 

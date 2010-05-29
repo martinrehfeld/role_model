@@ -32,7 +32,7 @@ Assigned roles will be stored as a bitmask in an configurable attribute
   => #<User ...>
 
   # role assignment
-  >> u.roles = [:admin] # ['admin'] works as well
+  >> u.roles = [:admin]  # ['admin'] works as well
   => [:admin]
 
   # adding roles
@@ -48,7 +48,7 @@ Assigned roles will be stored as a bitmask in an configurable attribute
   # ... check for individual roles
   >> u.has_role? :author
   => false
-  >> u.has_role? :admin
+  >> u.is_a? :admin  # has_role? is aliased as is_a?
   => true
 
   # see the internal bitmask representation (3 = 0b0011)
