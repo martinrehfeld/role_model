@@ -3,8 +3,8 @@
 Ever needed to assign roles to a model, say a User, and build conditional
 behaviour on top of that?
 
-Assigned roles will be stored as a bitmask in an configurable attribute
-(default: <tt>roles_mask</tt>). Here's how to get started:
+With RoleModel assigned roles will be stored as a bitmask in an configurable
+attribute (default: <tt>roles_mask</tt>). Here's how to get started:
 
   # given a User class with a roles_mask attribute
   require 'rubygems'
