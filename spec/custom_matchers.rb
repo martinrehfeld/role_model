@@ -5,8 +5,9 @@ module CustomMatchers
     end
 
     def ==(actual)
+      return false if actual.size < @expected.size
       @expected.each do | value |
-        return false unless actual.include?(value)
+        return false unless actual.any? { |actual_value| value == actual_value }
       end
       true
     rescue NoMethodError => ex
