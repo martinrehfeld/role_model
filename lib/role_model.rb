@@ -46,7 +46,7 @@ module RoleModel
       self.roles_attribute = name
     end
 
-    # alternative method signature: set the bitmask attribute role assignment will be stored in
+    # alternative method signature: set the bitmask attribute role assignments will be stored in
     def roles_attribute=(name)
       self.roles_attribute_name = name.to_sym
     end
