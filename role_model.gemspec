@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Martin Rehfeld"]
   s.date = %q{2010-05-29}
-  s.description = %q{Ever needed to assign roles to a model, say a User, and build conditional behaviour on top of that? Enter RoleModel -- roles have never been easier! Just declare your roles and you are done. Assigned roles will be stored as a bitmask.}
+  s.description = %q{RoleModel is the framework agnostic, efficient and declarative way to do user roles. Assigned roles will be efficiently stored as a bitmask directly into your model within an configurable attribute.}
   s.email = %q{martin.rehfeld@glnetworks.de}
   s.extra_rdoc_files = [
     "LICENSE",

@@ -1,17 +1,17 @@
 = RoleModel
 
-Ever needed to assign roles to a model, say a User, and build conditional
-behaviour on top of that?
+RoleModel is the framework agnostic, efficient and declarative way to do
+(user) roles. Assigned roles will be efficiently stored as a bitmask
+directly into your model within an configurable attribute.
 
-With RoleModel assigned roles will be stored as a bitmask in an configurable
-attribute (default: <tt>roles_mask</tt>). Here's how to get started:
+It works like this:
 
   # given a User class with a roles_mask attribute
   require 'rubygems'
   require 'role_model'
 
   class User
-    attr_accessor :roles_mask # in real life this would be an persisted attribute / DB-column
+    attr_accessor :roles_mask # in real life this would be an persisted attribute
     
     include RoleModel
 
