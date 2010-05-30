@@ -180,7 +180,7 @@ describe RoleModel do
     end
   end
 
-  [:has_role?, :is_a?].each do |check_role_assignment_method|
+  [:has_role?, :is_a?, :is_an?].each do |check_role_assignment_method|
     describe "##{check_role_assignment_method}" do
       subject { model_class.new }
 
