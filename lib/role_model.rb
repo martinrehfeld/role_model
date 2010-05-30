@@ -40,7 +40,7 @@ module RoleModel
       super
     end
 
-    # set the bitmask attribute role assignment will be stored in
+    # set the bitmask attribute role assignments will be stored in
     def roles_attribute(name)
       self.roles_attribute = name
     end
@@ -50,6 +50,12 @@ module RoleModel
       self.roles_attribute_name = name.to_sym
     end
 
+    # :call-seq:
+    #   roles(:role_1, ..., :role_n)
+    #   roles('role_1', ..., 'role_n')
+    #   roles([:role_1, ..., :role_n])
+    #   roles(['role_1', ..., 'role_n'])
+    #
     # declare valid roles
     def roles(*roles)
       self.valid_roles = Array[*roles].flatten.map { |r| r.to_sym }

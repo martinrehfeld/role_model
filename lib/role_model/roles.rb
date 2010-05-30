@@ -1,7 +1,7 @@
 require 'set'
 
 module RoleModel
-  class Roles < ::Set
+  class Roles < ::Set # :nodoc:
     attr_reader :model_instance
 
     def initialize(sender, *roles)

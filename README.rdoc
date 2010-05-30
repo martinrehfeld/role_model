@@ -39,7 +39,7 @@ It works like this:
   >> u.roles << :manager
   => [:admin, :manager]
   
-  # quering roles...
+  # querying roles...
 
   # ... retrieve all assigned roles
   >> u.roles # aliased to role_symbols for DeclarativeAuthorization
