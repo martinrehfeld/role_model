@@ -48,8 +48,6 @@ It works like this:
   # ... check for individual roles
   >> u.has_role? :author
   => false
-  >> u.is_a? :admin  # has_role? is aliased as is_a?
-  => true
 
   # see the internal bitmask representation (3 = 0b0011)
   >> u.roles_mask
