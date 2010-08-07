@@ -46,7 +46,7 @@ It works like this:
   => [:admin, :manager]
 
   # ... check for individual roles
-  >> u.has_role? :author
+  >> u.has_role? :author  # has_role? is also aliased to is?
   => false
 
   # see the internal bitmask representation (3 = 0b0011)

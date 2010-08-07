@@ -16,6 +16,7 @@ module RoleModel
     def has_role?(role)
       roles.include?(role.to_sym)
     end
+    alias is? has_role?
 
   end
 end
