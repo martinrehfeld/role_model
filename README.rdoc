@@ -41,6 +41,10 @@ It works like this:
   
   # querying roles...
 
+  # get all valid roles that have been declared
+  >> User.valid_roles
+  => [:admin, :manager, :author]
+  
   # ... retrieve all assigned roles
   >> u.roles # aliased to role_symbols for DeclarativeAuthorization
   => [:admin, :manager]
