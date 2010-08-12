@@ -15,17 +15,15 @@ module RoleModel
     # check if a given role has been assigned 
     # if a list of roles: check if ALL of the given roles have been assigned 
     def has_roles?(*roles)
-      (roles.to_a - roles.flatten).empty?      
+      (roles.to_a - roles.flatten).empty?
     end
     alias_method :is?, :has_roles?
-    # alias_method :have_roles?, :has_roles?
-    
+
     # check if any (at least ONE) of the given roles have been assigned
-    def has_role? *roles
-      !(roles.flatten & self.class.valid_roles).empty?            
+    def has_role?(*roles)
+      !(roles.flatten & self.class.valid_roles).empty?
     end
     alias_method :has?, :has_role?
-    # alias_method :have_role?, :has_role?
 
   end
 end
