@@ -10,13 +10,13 @@ module RoleModel
     def roles
       Roles.new(self, self.class.valid_roles.reject { |r| ((self.send(self.class.roles_attribute_name) || 0) & 2**self.class.valid_roles.index(r)).zero? })
     end
-    alias role_symbols roles
+    alias_method :role_symbols, :roles
 
     # check if a given role has been assigned
     def has_role?(role)
       roles.include?(role.to_sym)
     end
-    alias is? has_role?
+    alias_method :is?, :has_role?
 
   end
 end
