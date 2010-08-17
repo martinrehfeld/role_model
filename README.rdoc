@@ -25,7 +25,7 @@ It works like this:
   end
   
   #
-  # Test drive
+  # Test drive (check the RDoc or source for additional finesse)
   #
 
   >> u = User.new
@@ -51,6 +51,13 @@ It works like this:
 
   # ... check for individual roles
   >> u.has_role? :author  # has_role? is also aliased to is?
+  => false
+
+  # ... check for multiple roles
+  >> u.has_any_role? :author, :manager  # has_any_role? is also aliased to is_any_of?
+  => true
+
+  >> u.has_all_roles? :author, :manager  # has_all_roles? is also aliased to is?
   => false
 
   # see the internal bitmask representation (3 = 0b0011)
