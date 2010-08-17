@@ -207,6 +207,73 @@ describe RoleModel do
     end
   end
 
+  context "query for multiple roles" do
+    [:has_any_role?, :is_any_of?, :has_role?].each do |check_role_assignment_method|
+      describe "##{check_role_assignment_method}" do
+        subject { model_class.new }
+
+        it "should return true when the given role was assigned" do
+          subject.roles = :foo
+          subject.send(check_role_assignment_method, :foo).should be_true
+        end
+
+        it "should return true when any of the given roles was assigned" do
+          subject.roles = :foo
+          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+        end
+
+        it "should return false when the given role was not assigned" do
+          subject.roles = :bar
+          subject.send(check_role_assignment_method, :foo).should be_false
+        end
+
+        it "should return false when no role was assigned" do
+          subject.send(check_role_assignment_method, :foo).should be_false
+          subject.send(check_role_assignment_method, :bar).should be_false
+        end
+
+        it "should return false when asked for an undefined role" do
+          subject.send(check_role_assignment_method, :baz).should be_false
+        end
+      end
+    end
+
+    [:has_all_roles?, :is?, :has_roles?].each do |check_role_assignment_method|
+      describe "##{check_role_assignment_method}" do
+        subject { model_class.new }
+
+        it "should return true when the given role was assigned" do
+          subject.roles = :foo
+          subject.send(check_role_assignment_method, :foo).should be_true
+        end
+
+        it "should return true when all of the given roles was assigned" do
+          subject.roles = [:foo, :bar]
+          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+        end
+
+        it "should return false when not all of the given roles were assigned" do
+          subject.roles = [:foo, :bar]
+          subject.send(check_role_assignment_method, :bar, :baz).should be_false
+        end
+
+        it "should return false when the given role was not assigned" do
+          subject.roles = :bar
+          subject.send(check_role_assignment_method, :foo).should be_false
+        end
+
+        it "should return false when no role was assigned" do
+          subject.send(check_role_assignment_method, :foo).should be_false
+          subject.send(check_role_assignment_method, :bar).should be_false
+        end
+
+        it "should return false when asked for an undefined role" do
+          subject.send(check_role_assignment_method, :baz).should be_false
+        end
+      end
+    end
+  end
+
   context "inheritance" do
     let(:superclass_instance) {  model_class.new }
     let(:inherited_model_class) { Class.new(model_class) }
