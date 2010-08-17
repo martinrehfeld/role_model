@@ -212,28 +212,14 @@ describe RoleModel do
       describe "##{check_role_assignment_method}" do
         subject { model_class.new }
 
-        it "should return true when the given role was assigned" do
-          subject.roles = :foo
-          subject.send(check_role_assignment_method, :foo).should be_true
-        end
-
         it "should return true when any of the given roles was assigned" do
-          subject.roles = :foo
+          subject.roles = [:foo, :baz]
           subject.send(check_role_assignment_method, :foo, :bar).should be_true
         end
 
-        it "should return false when the given role was not assigned" do
-          subject.roles = :bar
-          subject.send(check_role_assignment_method, :foo).should be_false
-        end
-
-        it "should return false when no role was assigned" do
-          subject.send(check_role_assignment_method, :foo).should be_false
-          subject.send(check_role_assignment_method, :bar).should be_false
-        end
-
-        it "should return false when asked for an undefined role" do
-          subject.send(check_role_assignment_method, :baz).should be_false
+        it "should return false when none of the given roles were assigned" do
+          subject.roles = [:foo, :bar]
+          subject.send(check_role_assignment_method, :baz, :quux).should be_false
         end
       end
     end
@@ -242,33 +228,19 @@ describe RoleModel do
       describe "##{check_role_assignment_method}" do
         subject { model_class.new }
 
-        it "should return true when the given role was assigned" do
-          subject.roles = :foo
-          subject.send(check_role_assignment_method, :foo).should be_true
-        end
-
-        it "should return true when all of the given roles was assigned" do
+        it "should return true when all of the given roles were assigned" do
           subject.roles = [:foo, :bar]
           subject.send(check_role_assignment_method, :foo, :bar).should be_true
         end
 
-        it "should return false when not all of the given roles were assigned" do
+        it "should return false when only some of the given roles were assigned" do
           subject.roles = [:foo, :bar]
           subject.send(check_role_assignment_method, :bar, :baz).should be_false
         end
 
-        it "should return false when the given role was not assigned" do
-          subject.roles = :bar
-          subject.send(check_role_assignment_method, :foo).should be_false
-        end
-
-        it "should return false when no role was assigned" do
-          subject.send(check_role_assignment_method, :foo).should be_false
-          subject.send(check_role_assignment_method, :bar).should be_false
-        end
-
-        it "should return false when asked for an undefined role" do
-          subject.send(check_role_assignment_method, :baz).should be_false
+        it "should return false when none of the given roles were assigned" do
+          subject.roles = [:foo, :bar]
+          subject.send(check_role_assignment_method, :baz, :quux).should be_false
         end
       end
     end
