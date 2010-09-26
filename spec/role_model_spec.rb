@@ -180,6 +180,47 @@ describe RoleModel do
     end
   end
 
+  describe "#delete" do
+    subject { model_class.new }
+
+    context "with roles :foo and :bar already assigned" do
+      before(:each) do
+        subject.roles = [:foo, :bar]
+      end
+
+      it "should delete a existing role given as a symbol" do
+        subject.roles.delete(:foo)
+        subject.roles.should_not include(:foo)
+        subject.should have(1).roles
+      end
+
+      it "should not delete a existing role if it is given as a string" do
+        subject.roles.delete('foo')
+        subject.roles.should include(:foo)
+        subject.should have(2).roles
+      end
+
+      it "should not change anything if a non existing role is given" do
+        subject.roles.delete(:third)
+        subject.roles.should include(:foo, :bar)
+        subject.should have(2).roles
+      end
+    end
+    
+    context "without roles assigned" do
+      it "should have 0 roles if a role is given as a symbol" do
+        subject.roles.delete(:foo)
+        subject.should have(0).roles
+      end
+
+      it "should have 0 roles if a role is given as a string" do
+        subject.roles.delete('foo')
+        subject.should have(0).roles
+      end
+    end
+
+  end
+
   context "query for an individual role" do
     [:has_any_role?, :is_any_of?, :has_role?, :has_all_roles?, :is?, :has_roles?].each do |check_role_assignment_method|
       describe "##{check_role_assignment_method}" do
