@@ -194,10 +194,10 @@ describe RoleModel do
         subject.should have(1).roles
       end
 
-      it "should not delete a existing role if it is given as a string" do
+      it "should delete a existing role given as a string" do
         subject.roles.delete('foo')
-        subject.roles.should include(:foo)
-        subject.should have(2).roles
+        subject.roles.should_not include(:foo)
+        subject.should have(1).roles
       end
 
       it "should not change anything if a non existing role is given" do
