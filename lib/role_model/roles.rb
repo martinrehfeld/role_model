@@ -13,5 +13,12 @@ module RoleModel
       model_instance.roles = super.to_a
       self
     end
+
+    def delete(role)
+      model_instance.roles = super.to_a
+      self
+    end
+
   end
 end
+

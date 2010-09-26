@@ -16,4 +16,11 @@ describe RoleModel::Roles do
       subject << :baz
     end
   end
+
+  describe "#delete" do
+    it "should delete the given element to the model_instance.roles by re-assigning all roles" do
+      model_instance.should_receive(:roles=).with(array_including(:bar))
+      subject.delete :foo
+    end
+  end
 end
