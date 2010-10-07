@@ -28,5 +28,9 @@ module RoleModel
     def roles(*roles)
       self.valid_roles = Array[*roles].flatten.map { |r| r.to_sym }
     end
+
+    def mask_for(*roles)
+      (Array[*roles].flatten.map { |r| r.to_sym } & valid_roles).map { |r| 2**valid_roles.index(r) }.inject { |sum, bitvalue| sum + bitvalue } || 0
+    end
   end
 end

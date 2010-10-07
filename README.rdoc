@@ -64,6 +64,10 @@ It works like this:
   >> u.roles_mask
   => 3
 
+  # see the role mask for a certain role(s)
+  >> User.mask_for :admin, :author
+  => 5
+
 Once you have included RoleModel, your model is perfectly fit to be used
 together with a role-based authorization solution, such as
 http://github.com/ryanb/cancan or
