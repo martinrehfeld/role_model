@@ -10,12 +10,12 @@ module RoleModel
     end
 
     def <<(role)
-      model_instance.roles = super.to_a
+      model_instance.roles = super
       self
     end
 
     def delete(role)
-      model_instance.roles = super(role.to_sym).to_a
+      model_instance.roles = super(role.to_sym)
       self
     end
 
