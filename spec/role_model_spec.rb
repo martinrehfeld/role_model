@@ -126,6 +126,13 @@ describe RoleModel do
         subject.roles.should include(:bar)
         subject.should have(1).roles
       end
+
+      it "should allow reassigning the #roles value aka Roles object" do
+        subject.roles << :bar
+        subject.roles = subject.roles
+        subject.roles.should include(:foo, :bar)
+        subject.should have(2).roles
+      end
     end
   end
 

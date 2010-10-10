@@ -3,7 +3,16 @@ module RoleModel
 
     # assign roles
     def roles=(*roles)
-      self.send("#{self.class.roles_attribute_name}=", (Array[*roles].flatten.map { |r| r.to_sym } & self.class.valid_roles).map { |r| 2**self.class.valid_roles.index(r) }.inject { |sum, bitvalue| sum + bitvalue })
+      self.send("#{self.class.roles_attribute_name}=",
+                (Array[*roles].map {|r|
+                  r.respond_to?(:each) ? r.to_a : r
+                }.flatten.map { |r|
+                  r.to_sym
+                } & self.class.valid_roles).map { |r|
+                  2**self.class.valid_roles.index(r)
+                }.inject { |sum, bitvalue|
+                  sum + bitvalue
+                })
     end
 
     # query assigned roles
