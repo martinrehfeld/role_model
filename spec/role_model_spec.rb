@@ -369,41 +369,30 @@ describe RoleModel do
   describe ".mask_for" do
     subject { model_class.new }
 
-    before(:each) do
-      model_class.instance_eval do
-        attr_accessor :roles_mask
-        attr_accessor :custom_roles_mask
-        include RoleModel
-        roles :foo, :bar, :third
-      end
+    it "should return the role mask of a role" do
+      subject.class.mask_for(:foo).should == 1
+      subject.class.mask_for(:bar).should == 2
+      subject.class.mask_for(:third).should == 4
     end
 
-    context "passing" do
-      it "should return the role mask of a role" do
-        subject.class.mask_for(:foo).should == 1
-        subject.class.mask_for(:bar).should == 2
-        subject.class.mask_for(:third).should == 4
-      end
+    it "should return the role mask of an array of roles" do
+      subject.class.mask_for(:foo, :bar).should == 3
+      subject.class.mask_for(:foo, :third).should == 5
+      subject.class.mask_for(:foo, :bar, :third).should == 7
+    end
 
-      it "should return the role mask of an array of roles" do
-        subject.class.mask_for(:foo, :bar).should == 3
-        subject.class.mask_for(:foo, :third).should == 5
-        subject.class.mask_for(:foo, :bar, :third).should == 7
-      end
+    it "should return the role mask of a string array of roles" do
+      subject.class.mask_for("foo").should == 1
+      subject.class.mask_for("foo", "bar").should == 3
+      subject.class.mask_for("foo", "third").should == 5
+    end
 
-      it "should return the role mask of a string array of roles" do
-        subject.class.mask_for("foo").should == 1
-        subject.class.mask_for("foo", "bar").should == 3
-        subject.class.mask_for("foo", "third").should == 5
-      end
+    it "should return the role mask of the existing roles" do
+      subject.class.mask_for(:foo, :quux).should == 1
+    end
 
-      it "should return the role mask of the existing roles" do
-        subject.class.mask_for(:foo, :quux).should == 1
-      end
-
-      it "should return 0 when a role that does not exist is passed" do
-        subject.class.mask_for(:quux).should == 0
-      end
+    it "should return 0 when a role that does not exist is passed" do
+      subject.class.mask_for(:quux).should == 0
     end
   end
 
