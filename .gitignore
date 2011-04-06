@@ -13,9 +13,13 @@ tmtags
 ## VIM
 *.swp
 
+## BUNDLE
+.bundle
+
 ## PROJECT::GENERAL
 coverage
 rdoc
 pkg
 
 ## PROJECT::SPECIFIC
+.rvmrc
