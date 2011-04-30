@@ -33,7 +33,6 @@ describe RoleModel do
 
   describe ".roles" do
     subject { model_class.new }
-
     it "should define the valid roles" do
       subject.roles = %w(foo bar baz)
       subject.roles.should include(:foo, :bar)
@@ -333,10 +332,30 @@ describe RoleModel do
     end
   end
 
+  context "ClassMethods" do
+    
+    subject { model_class }
+    
+    describe ".roles" do
+      it "should not allow public access to set roles" do
+        lambda do
+          subject.roles :foo, :quux
+        end.should raise_exception(NoMethodError, /protected method.*roles.*called/)
+      end
+    end
+    
+  end
+
   context "inheritance" do
     let(:superclass_instance) {  model_class.new }
     let(:inherited_model_class) { Class.new(model_class) }
     subject { inherited_model_class.new }
+    
+    it "should not allow public access to set roles" do
+      lambda do
+        inherited_model_class.roles :foo, :quux
+      end.should raise_exception(NoMethodError, /protected method.*roles.*called/)
+    end
 
     it "should not alter the superclass behaviour" do
       inherited_model_class.instance_eval do
