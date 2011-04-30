@@ -10,7 +10,7 @@ begin
     gem.email = "martin.rehfeld@glnetworks.de"
     gem.homepage = "http://github.com/martinrehfeld/role_model"
     gem.authors = ["Martin Rehfeld"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency "rspec", "~> 1"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -18,19 +18,23 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
+begin
+  require 'spec/rake/spectask'
+  Spec::Rake::SpecTask.new(:spec) do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.spec_files = FileList['spec/**/*_spec.rb']
+  end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-  spec.rcov_opts.concat ['--exclude', 'rcov.rb']
-  spec.rcov_opts.concat ['--exclude', '.*_spec.rb']
-  spec.rcov_opts.concat ['--exclude', 'spec_helper.rb']
+  Spec::Rake::SpecTask.new(:rcov) do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.pattern = 'spec/**/*_spec.rb'
+    spec.rcov = true
+    spec.rcov_opts.concat ['--exclude', 'rcov.rb']
+    spec.rcov_opts.concat ['--exclude', '.*_spec.rb']
+    spec.rcov_opts.concat ['--exclude', 'spec_helper.rb']
+  end
+rescue LoadError
+  STDERR.puts "Rspec 1.x not available"
 end
 
 task :spec => :check_dependencies
