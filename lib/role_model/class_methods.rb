@@ -18,17 +18,6 @@ module RoleModel
       self.roles_attribute_name = name.to_sym
     end
 
-    # :call-seq:
-    #   roles(:role_1, ..., :role_n)
-    #   roles('role_1', ..., 'role_n')
-    #   roles([:role_1, ..., :role_n])
-    #   roles(['role_1', ..., 'role_n'])
-    #
-    # declare valid roles
-    def roles(*roles)
-      self.valid_roles = Array[*roles].flatten.map { |r| r.to_sym }
-    end
-
     def mask_for(*roles)
       (Array[*roles].map {|r|
         r.respond_to?(:each) ? r.to_a : r
@@ -39,6 +28,19 @@ module RoleModel
       }.inject { |sum, bitvalue|
         sum + bitvalue
       } || 0
+    end
+    
+    protected
+
+    # :call-seq:
+    #   roles(:role_1, ..., :role_n)
+    #   roles('role_1', ..., 'role_n')
+    #   roles([:role_1, ..., :role_n])
+    #   roles(['role_1', ..., 'role_n'])
+    #
+    # declare valid roles
+    def roles(*roles)
+      self.valid_roles = Array[*roles].flatten.map { |r| r.to_sym }
     end
   end
 end
