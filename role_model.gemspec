@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{role_model}
-  s.version = "0.6.1"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Martin Rehfeld"]
-  s.date = %q{2011-04-30}
+  s.date = %q{2011-05-01}
   s.description = %q{Ever needed to assign roles to a model, say a User, and build conditional behaviour on top of that? Enter RoleModel -- roles have never been easier! Just declare your roles and you are done. Assigned roles will be stored as a bitmask.}
   s.email = %q{martin.rehfeld@glnetworks.de}
   s.extra_rdoc_files = [
@@ -18,6 +18,9 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    ".rspec",
+    "Gemfile",
+    "Gemfile.lock",
     "LICENSE",
     "README.rdoc",
     "Rakefile",
@@ -31,12 +34,12 @@ Gem::Specification.new do |s|
     "spec/custom_matchers_spec.rb",
     "spec/role_model_spec.rb",
     "spec/roles_spec.rb",
-    "spec/spec.opts",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/martinrehfeld/role_model}
+  s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
+  s.rubygems_version = %q{1.7.2}
   s.summary = %q{Declare, assign and query roles with ease}
   s.test_files = [
     "spec/custom_matchers.rb",
@@ -50,12 +53,21 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rspec>, ["~> 1"])
+      s.add_development_dependency(%q<jeweler>, [">= 1.5.2"])
+      s.add_development_dependency(%q<rspec>, ["~> 2"])
+      s.add_development_dependency(%q<autotest>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, ["~> 2"])
     else
-      s.add_dependency(%q<rspec>, ["~> 1"])
+      s.add_dependency(%q<jeweler>, [">= 1.5.2"])
+      s.add_dependency(%q<rspec>, ["~> 2"])
+      s.add_dependency(%q<autotest>, [">= 0"])
+      s.add_dependency(%q<rspec>, ["~> 2"])
     end
   else
-    s.add_dependency(%q<rspec>, ["~> 1"])
+    s.add_dependency(%q<jeweler>, [">= 1.5.2"])
+    s.add_dependency(%q<rspec>, ["~> 2"])
+    s.add_dependency(%q<autotest>, [">= 0"])
+    s.add_dependency(%q<rspec>, ["~> 2"])
   end
 end
 
