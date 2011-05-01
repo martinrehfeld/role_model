@@ -33,7 +33,6 @@ describe RoleModel do
 
   describe ".roles" do
     subject { model_class.new }
-
     it "should define the valid roles" do
       subject.roles = %w(foo bar baz)
       subject.roles.should include(:foo, :bar)
@@ -333,10 +332,60 @@ describe RoleModel do
     end
   end
 
+  context "query for roles when none defined in model" do
+    [:has_any_role?, :is_any_of?, :has_role?, :has_all_roles?, :is?, :has_roles?].each do |check_role_assignment_method|
+      describe "##{check_role_assignment_method}" do
+        
+        let(:model_class_without_roles) { Class.new }
+        
+        before(:each) do
+          model_class_without_roles.instance_eval do
+            attr_accessor :roles_mask
+            attr_accessor :custom_roles_mask
+            include RoleModel
+          end
+        end
+        
+        
+        subject { model_class_without_roles.new }
+
+        it "should return false when a role was assigned" do
+          subject.roles = :foo
+          subject.send(check_role_assignment_method, :foo).should be_false
+        end
+
+        it "should return false when no role was assigned" do
+          subject.send(check_role_assignment_method, :foo).should be_false
+        end
+
+      end
+    end
+  end
+
+  context "ClassMethods" do
+    
+    subject { model_class }
+    
+    describe ".roles" do
+      it "should not allow public access to set roles" do
+        lambda do
+          subject.roles :foo, :quux
+        end.should raise_exception(NoMethodError, /protected method.*roles.*called/)
+      end
+    end
+    
+  end
+
   context "inheritance" do
     let(:superclass_instance) {  model_class.new }
     let(:inherited_model_class) { Class.new(model_class) }
     subject { inherited_model_class.new }
+    
+    it "should not allow public access to set roles" do
+      lambda do
+        inherited_model_class.roles :foo, :quux
+      end.should raise_exception(NoMethodError, /protected method.*roles.*called/)
+    end
 
     it "should not alter the superclass behaviour" do
       inherited_model_class.instance_eval do

@@ -15,6 +15,7 @@ module RoleModel
         attr_accessor(*::RoleModel::INHERITABLE_CLASS_ATTRIBUTES)
       end
       roles_attribute :roles_mask # set default bitmask attribute
+      self.valid_roles = []
     end
   end
 
