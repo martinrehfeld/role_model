@@ -19,15 +19,8 @@ module RoleModel
     end
 
     def mask_for(*roles)
-      (Array[*roles].map {|r|
-        r.respond_to?(:each) ? r.to_a : r
-      }.flatten.map { |r|
-        r.to_sym
-      } & valid_roles).map { |r|
-        2**valid_roles.index(r)
-      }.inject { |sum, bitvalue|
-        sum + bitvalue
-      } || 0
+      sanitized_roles = roles.map { |role| role.is_a?(Set) ? role.to_a : role }.flatten.map(&:to_sym)
+      (valid_roles & sanitized_roles).inject(0) { |sum, role| sum + 2**valid_roles.index(role) }
     end
     
     protected
@@ -40,7 +33,7 @@ module RoleModel
     #
     # declare valid roles
     def roles(*roles)
-      self.valid_roles = Array[*roles].flatten.map { |r| r.to_sym }
+      self.valid_roles = roles.flatten.map(&:to_sym)
     end
   end
 end
