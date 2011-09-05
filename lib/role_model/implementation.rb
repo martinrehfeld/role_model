@@ -20,7 +20,7 @@ module RoleModel
     #   has_all_roles?([:role_1, ..., :role_n])
     #   has_all_roles?(['role_1', ..., 'role_n'])
     #
-    # check if ALL of the given roles have been assigned 
+    # check if ALL of the given roles have been assigned
     # this method is aliased as #is? and #has_roles?
     def has_all_roles?(*roles)
       roles.flatten.map { |r| r.to_sym }.all? { |r| self.roles.include?(r) }

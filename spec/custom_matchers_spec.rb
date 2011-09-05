@@ -2,10 +2,10 @@ require 'spec_helper'
 
 module CustomMatchers
   describe ArrayIncludingMatcher do
-  
+
     it "should describe itself properly" do
       ArrayIncludingMatcher.new(:a, :b).description.should == "array_including(:a, :b)"
-    end      
+    end
 
     describe "passing" do
       it "should match the same array" do
@@ -15,7 +15,7 @@ module CustomMatchers
       it "should match a array with extra stuff" do
         array_including(:a).should == [:a, :b]
       end
-    
+
       it "should match a array regardless of element position" do
         array_including(:a, :b).should == [:b, :a]
       end
@@ -38,7 +38,7 @@ module CustomMatchers
         end
       end
     end
-  
+
     describe "failing" do
       it "should not match a non-array" do
         array_including(:a).should_not == :a
@@ -47,7 +47,7 @@ module CustomMatchers
       it "should not match a array with a missing element" do
         array_including(:a).should_not == [:b]
       end
-    
+
       it "should not match an empty array with a given key" do
         array_including(:a).should_not == []
       end

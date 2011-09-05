@@ -39,6 +39,10 @@ describe RoleModel do
       subject.roles.should_not include(:baz)
     end
 
+    it "should accept an argument list with roles" do
+
+    end
+
     it "should define the bitvalue of each role by position" do
       subject.roles = :foo
       subject.roles_mask.should == 1
@@ -212,7 +216,7 @@ describe RoleModel do
         subject.should have(2).roles
       end
     end
-    
+
     context "without roles assigned" do
       it "should have 0 roles if a role is given as a symbol" do
         subject.roles.delete(:foo)
@@ -335,9 +339,9 @@ describe RoleModel do
   context "query for roles when none defined in model" do
     [:has_any_role?, :is_any_of?, :has_role?, :has_all_roles?, :is?, :has_roles?].each do |check_role_assignment_method|
       describe "##{check_role_assignment_method}" do
-        
+
         let(:model_class_without_roles) { Class.new }
-        
+
         before(:each) do
           model_class_without_roles.instance_eval do
             attr_accessor :roles_mask
@@ -345,8 +349,8 @@ describe RoleModel do
             include RoleModel
           end
         end
-        
-        
+
+
         subject { model_class_without_roles.new }
 
         it "should return false when a role was assigned" do
@@ -363,9 +367,9 @@ describe RoleModel do
   end
 
   context "ClassMethods" do
-    
+
     subject { model_class }
-    
+
     describe ".roles" do
       it "should not allow public access to set roles" do
         lambda do
@@ -373,14 +377,14 @@ describe RoleModel do
         end.should raise_exception(NoMethodError, /protected method.*roles.*called/)
       end
     end
-    
+
   end
 
   context "inheritance" do
     let(:superclass_instance) {  model_class.new }
     let(:inherited_model_class) { Class.new(model_class) }
     subject { inherited_model_class.new }
-    
+
     it "should not allow public access to set roles" do
       lambda do
         inherited_model_class.roles :foo, :quux

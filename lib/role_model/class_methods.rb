@@ -19,7 +19,7 @@ module RoleModel
     end
 
     def mask_for(*roles)
-      (Array[*roles].map {|r|
+      (Array[*roles].map { |r|
         r.respond_to?(:each) ? r.to_a : r
       }.flatten.map { |r|
         r.to_sym
@@ -29,7 +29,7 @@ module RoleModel
         sum + bitvalue
       } || 0
     end
-    
+
     protected
 
     # :call-seq:
