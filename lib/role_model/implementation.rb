@@ -23,7 +23,7 @@ module RoleModel
     # check if ALL of the given roles have been assigned
     # this method is aliased as #is? and #has_roles?
     def has_all_roles?(*roles)
-      roles.flatten.map { |r| r.to_sym }.all? { |r| self.roles.include?(r) }
+      roles.flatten.map(&:to_sym).all? { |r| self.roles.include?(r) }
     end
     alias_method :is?, :has_all_roles?
     alias_method :has_roles?, :has_all_roles?
@@ -39,7 +39,7 @@ module RoleModel
     # check if any (at least ONE) of the given roles have been assigned
     # this method is aliased as #is_any_of? and #has_role?
     def has_any_role?(*roles)
-      roles.flatten.map { |r| r.to_sym }.any? { |r| self.roles.include?(r) }
+      roles.flatten.map(&:to_sym).any? { |r| self.roles.include?(r) }
     end
     alias_method :is_any_of?, :has_any_role?
     alias_method :has_role?, :has_any_role?
