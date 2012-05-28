@@ -318,6 +318,11 @@ describe RoleModel do
       describe "##{check_role_assignment_method}" do
         subject { model_class.new }
 
+        it "returns true when the assigned roles include the given roles" do
+          subject.roles = [:foo, :bar, :third]
+          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+        end
+
         it "should return true when all of the given roles were assigned" do
           subject.roles = [:foo, :bar]
           subject.send(check_role_assignment_method, :foo, :bar).should be_true
@@ -331,6 +336,29 @@ describe RoleModel do
         it "should return false when none of the given roles were assigned" do
           subject.roles = [:foo, :bar]
           subject.send(check_role_assignment_method, :baz, :quux).should be_false
+        end
+      end
+    end
+  end
+
+  context "query for exact roles" do
+    [:has_only_roles?, :is_exactly?].each do |check_role_assignment_method|
+      describe "##{check_role_assignment_method}" do
+        subject { model_class.new }
+
+        it "returns false when the given roles are a subset of those assigned" do
+          subject.roles = [:foo, :bar, :third]
+          subject.send(check_role_assignment_method, :foo, :bar).should be_false
+        end
+
+        it "returns true when the given roles exactly match those assigned" do
+          subject.roles = [:foo, :bar]
+          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+        end
+
+        it "should return false when only some of the given roles were assigned" do
+          subject.roles = [:foo, :bar]
+          subject.send(check_role_assignment_method, :bar, :baz).should be_false
         end
       end
     end
