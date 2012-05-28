@@ -44,5 +44,20 @@ module RoleModel
     alias_method :is_any_of?, :has_any_role?
     alias_method :has_role?, :has_any_role?
 
+    # :call-seq:
+    #   has_only_roles?(:role)
+    #   has_only_roles?('role')
+    #   has_only_roles?(:role_1, ..., :role_n)
+    #   has_only_roles?('role_1', ..., 'role_n')
+    #   has_only_roles?([:role_1, ..., :role_n])
+    #   has_only_roles?(['role_1', ..., 'role_n'])
+    #
+    # check if ONLY of the given roles have been assigned
+    # this method is aliased as #is_exactly?
+    def has_only_roles?(*roles)
+      self.send("#{self.class.roles_attribute_name}") == self.class.mask_for(*roles)
+    end
+    alias_method :is_exactly?, :has_only_roles?
+
   end
 end
