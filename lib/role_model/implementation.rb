@@ -65,7 +65,7 @@ module RoleModel
     #
     # Defines new methods which call #is?(:role)
     def method_missing(name, *args, &block)
-      if name =~ /^(?:is_)?(.+)\?$/
+      if name.to_s =~ /^(?:is_)?(.+)\?$/
         role = $1.to_sym
         self.class.instance_eval do
           define_method(name.to_sym) { is? role }
