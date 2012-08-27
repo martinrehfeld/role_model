@@ -296,6 +296,32 @@ describe RoleModel do
       end
     end
   end
+  
+  describe "dynamically query for an individual role" do
+    subject { model_class.new }
+    
+    it "should return true when the given role was assigned" do
+      subject.roles = :foo
+      subject.is_foo?.should be_true
+      subject.foo?.should be_true
+    end
+
+    it "should return false when the given role was not assigned" do
+      subject.roles = :bar
+      subject.is_foo?.should be_false
+      subject.foo?.should be_false
+    end
+
+    it "should return false when no role was assigned" do
+      subject.is_foo?.should be_false
+      subject.bar?.should be_false
+    end
+
+    it "should return false when asked for an undefined role" do
+      subject.baz?.should be_false
+      subject.is_baz?.should be_false
+    end
+  end
 
   context "query for multiple roles" do
     [:has_any_role?, :is_any_of?, :has_role?].each do |check_role_assignment_method|
