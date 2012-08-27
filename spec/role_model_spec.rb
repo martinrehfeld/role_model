@@ -317,9 +317,22 @@ describe RoleModel do
       subject.bar?.should be_false
     end
 
-    it "should return false when asked for an undefined role" do
-      subject.baz?.should be_false
-      subject.is_baz?.should be_false
+    it "should throw NoMethodError when asked for an undefined role" do
+      lambda { subject.baz? }.should raise_error(NoMethodError)
+      lambda { subject.is_baz? }.should raise_error(NoMethodError)
+    end
+    
+    it "should not define dynamic finders when opting out" do
+      non_dynamic_klass = Class.new do
+        attr_accessor :roles_mask
+        attr_accessor :custom_roles_mask
+        include RoleModel
+        roles :foo, :bar, :third, :dynamic => false
+      end
+      
+      model = non_dynamic_klass.new
+      lambda { model.is_foo? }.should raise_error(NoMethodError)
+      lambda { model.bar? }.should raise_error(NoMethodError)
     end
   end
 

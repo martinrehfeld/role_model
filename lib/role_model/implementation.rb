@@ -58,22 +58,6 @@ module RoleModel
       self.send("#{self.class.roles_attribute_name}") == self.class.mask_for(*roles)
     end
     alias_method :is_exactly?, :has_only_roles?
-    
-    # Dynamic matchers:
-    #   #is_<:role>?
-    #   #<:role>?
-    #
-    # Defines new methods which call #is?(:role)
-    def method_missing(name, *args, &block)
-      if name.to_s =~ /^(?:is_)?(.+)\?$/
-        role = $1.to_sym
-        self.class.instance_eval do
-          define_method(name.to_sym) { is? role }
-        end
-        return self.send(name)
-      end
-      super
-    end
 
   end
 end
