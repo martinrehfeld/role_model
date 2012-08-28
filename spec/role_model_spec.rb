@@ -334,6 +334,39 @@ describe RoleModel do
       lambda { model.is_foo? }.should raise_error(NoMethodError)
       lambda { model.bar? }.should raise_error(NoMethodError)
     end
+    
+    it "should be able to override the default dynamic query methods and call super" do
+      klass = Class.new do
+        def bar?
+          return false
+        end
+        
+        attr_accessor :roles_mask
+        attr_accessor :custom_roles_mask
+        include RoleModel
+        roles :foo, :bar, :baz
+        
+        def is_baz?
+          return false
+        end
+        
+        def foo?
+          ret = super
+          !ret
+        end
+      end
+      
+      model = klass.new
+      model.roles = [:foo, :bar, :baz]
+      
+      model.foo?.should be_false
+      
+      model.bar?.should be_false
+      model.is_bar?.should be_true
+      
+      model.is_baz?.should be_false
+      model.baz?.should be_true
+    end
   end
 
   context "query for multiple roles" do

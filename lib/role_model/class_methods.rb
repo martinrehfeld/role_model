@@ -36,20 +36,25 @@ module RoleModel
     def roles(*roles)
       opts = roles.last.is_a?(Hash) ? roles.pop : {}
       self.valid_roles = roles.flatten.map(&:to_sym)
-      self.define_dynamic_queries unless opts[:dynamic] == false
+      unless (opts[:dynamic] == false)
+        self.define_dynamic_queries(self.valid_roles)
+      end
     end
     
-    # Defines dynamic queries for valid_roles:
+    # Defines dynamic queries for :role
     #   #is_<:role>?
     #   #<:role>?
     #
     # Defines new methods which call #is?(:role)
-    def define_dynamic_queries
-      valid_roles.each do |role|
-        ["#{role}?".to_sym, "is_#{role}?".to_sym].each do |method|
-          define_method(method) { is? role }
+    def define_dynamic_queries(roles)
+      dynamic_module = Module.new do
+        roles.each do |role|
+          ["#{role}?".to_sym, "is_#{role}?".to_sym].each do |method|
+            define_method(method) { is? role }
+          end
         end
       end
+      include dynamic_module
     end
   end
 end
