@@ -11,12 +11,18 @@ It works like this:
   require 'role_model'
   
   class User
-    attr_accessor :roles_mask # in real life this would be an persisted attribute
-    
+    attr_accessor :roles_mask   # just for demo purposes
+    # in real life this would usuallt be a persistent attribute,
+    # e.g. if your User model is persisted in a SQL-DB add an integer
+    # column named roles_mask to your users table -- just remove/replace
+    # above attr_accessor line with whatever is needed for your
+    # persistence solution
+
     include RoleModel
     
-    # optionally set the integer attribute to store the roles in,
-    # :roles_mask is the default
+    # if you want to use a different integer attribute to store the
+    # roles in, set it with roles_attribute :my_roles_attribute,
+    # :roles_mask is the default name
     roles_attribute :roles_mask
     
     # declare the valid roles -- do not change the order if you add more
