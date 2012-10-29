@@ -52,7 +52,7 @@ It works like this:
   => [:admin, :manager, :author]
   
   # ... retrieve all assigned roles
-  >> u.roles # aliased to role_symbols for DeclarativeAuthorization
+  >> u.roles # also: u.role_symbols for DeclarativeAuthorization compatibility
   => [:admin, :manager]
   
   # ... check for individual roles

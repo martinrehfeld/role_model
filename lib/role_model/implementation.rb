@@ -10,7 +10,12 @@ module RoleModel
     def roles
       Roles.new(self, self.class.valid_roles.reject { |r| ((self.send(self.class.roles_attribute_name) || 0) & 2**self.class.valid_roles.index(r)).zero? })
     end
-    alias_method :role_symbols, :roles
+
+    # query assigned roles returning an Array for the
+    # declarative_authorization gem
+    def role_symbols
+      roles.to_a
+    end
 
     # :call-seq:
     #   has_all_roles?(:role)

@@ -53,16 +53,22 @@ describe RoleModel do
 
   [:roles, :role_symbols].each do |role_query_method|
     describe "##{role_query_method}" do
-      subject { model_class.new }
+      let(:model) { model_class.new }
+      subject { model.send(role_query_method) }
 
       it "should return the assigned roles as symbols" do
-        subject.roles = [:foo, :bar]
-        subject.send(role_query_method).should include(:foo, :bar)
-        subject.send(role_query_method).should have(2).elements
+        model.roles = [:foo, :bar]
+        subject.should include(:foo, :bar)
+        subject.should have(2).elements
       end
 
-      it "should return an empty array when no roles have been assigned" do
-        subject.send(role_query_method).should be_empty
+      it "should be empty when no roles have been assigned" do
+        subject.should be_empty
+      end
+
+      if role_query_method == :role_symbols
+        # DeclarativeAuthorization specifically wants an Array
+        it { should be_an(Array) }
       end
     end
   end
@@ -296,10 +302,10 @@ describe RoleModel do
       end
     end
   end
-  
+
   describe "dynamically query for an individual role" do
     subject { model_class.new }
-    
+
     it "should return true when the given role was assigned" do
       subject.roles = :foo
       subject.is_foo?.should be_true
@@ -321,7 +327,7 @@ describe RoleModel do
       lambda { subject.baz? }.should raise_error(NoMethodError)
       lambda { subject.is_baz? }.should raise_error(NoMethodError)
     end
-    
+
     it "should not define dynamic finders when opting out" do
       non_dynamic_klass = Class.new do
         attr_accessor :roles_mask
@@ -329,41 +335,41 @@ describe RoleModel do
         include RoleModel
         roles :foo, :bar, :third, :dynamic => false
       end
-      
+
       model = non_dynamic_klass.new
       lambda { model.is_foo? }.should raise_error(NoMethodError)
       lambda { model.bar? }.should raise_error(NoMethodError)
     end
-    
+
     it "should be able to override the default dynamic query methods and call super" do
       klass = Class.new do
         def bar?
           return false
         end
-        
+
         attr_accessor :roles_mask
         attr_accessor :custom_roles_mask
         include RoleModel
         roles :foo, :bar, :baz
-        
+
         def is_baz?
           return false
         end
-        
+
         def foo?
           ret = super
           !ret
         end
       end
-      
+
       model = klass.new
       model.roles = [:foo, :bar, :baz]
-      
+
       model.foo?.should be_false
-      
+
       model.bar?.should be_false
       model.is_bar?.should be_true
-      
+
       model.is_baz?.should be_false
       model.baz?.should be_true
     end
