@@ -74,6 +74,14 @@ It works like this:
   >> User.mask_for :admin, :author
   => 5
 
+  # see all available masks with mentioned role(s)
+  >> User.available_masks_for :admin, :author
+  => [1,4,3,5,6,7]
+
+  # see masks combinations only with mentioned role(s)
+  >> User.masks_only_for :admin, :author
+  => [1,4,5]
+
 Once you have included RoleModel, your model is perfectly fit to be used
 together with a role-based authorization solution, such as
 http://github.com/ryanb/cancan or

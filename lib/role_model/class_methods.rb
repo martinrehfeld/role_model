@@ -23,7 +23,33 @@ module RoleModel
 
       (valid_roles & sanitized_roles).inject(0) { |sum, role| sum + 2**valid_roles.index(role) }
     end
-    
+
+    # generated all available mask combination for mentioned roles
+    def available_masks_for(*roles)
+      roles.flatten!
+      result = roles.map { |role| self.mask_for role }
+
+      for i in 2..(self.valid_roles.size)
+        self.valid_roles.combination(i).each do |c|
+          result << self.mask_for(c) unless roles.&(c).empty?
+        end
+      end
+
+      result
+    end
+
+    # generate combination only with mentioned roles
+    def masks_only_for(*roles)
+      roles.flatten!
+      result = roles.map { |role| self.mask_for role }
+
+      for i in 2..(roles.size)
+        result += roles.combination(i).map { |c| self.mask_for c }
+      end
+
+      result.uniq
+    end
+
     protected
 
     # :call-seq:
