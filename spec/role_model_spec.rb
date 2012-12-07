@@ -594,4 +594,51 @@ describe RoleModel do
     end
   end
 
+  describe ".available_masks_for" do
+    subject { model_class.new }
+
+    it "should return available masks of a role" do
+      subject.class.available_masks_for(:foo).should == [1,3,5,7]
+      subject.class.available_masks_for(:bar).should == [2,3,6,7]
+      subject.class.available_masks_for(:third).should == [4,5,6,7]
+    end
+
+    it "should return availbale masks of an array of roles" do
+      subject.class.available_masks_for(:foo, :bar).should == [1,2,3,5,6,7]
+      subject.class.available_masks_for(:foo, :third).should == [1,4,3,5,6,7]
+      subject.class.available_masks_for(:foo, :bar, :third).should == [1,2,4,3,5,6,7]
+    end
+
+    it "should return availbale masks of the existing roles" do
+      subject.class.available_masks_for(:foo, :quux).should == [1,0,3,5,7]
+    end
+
+    it "should return [0] when a role that does not exist" do
+      subject.class.available_masks_for(:quux).should == [0]
+    end
+  end
+
+  describe ".masks_only_for" do
+    subject { model_class.new }
+
+    it "should return combination masks of a role" do
+      subject.class.masks_only_for(:foo).should == [1]
+      subject.class.masks_only_for(:bar).should == [2]
+      subject.class.masks_only_for(:third).should == [4]
+    end
+
+    it "should return combination masks of an array of roles" do
+      subject.class.masks_only_for(:foo, :bar).should == [1,2,3]
+      subject.class.masks_only_for(:foo, :third).should == [1,4,5]
+      subject.class.masks_only_for(:foo, :bar, :third).should == [1,2,4,3,5,6,7]
+    end
+
+    it "should return combination masks of the existing roles" do
+      subject.class.masks_only_for(:foo, :quux).should == [1,0]
+    end
+
+    it "should return [0] when a role that does not exist" do
+      subject.class.available_masks_for(:quux).should == [0]
+    end
+  end
 end
