@@ -23,7 +23,19 @@ module RoleModel
 
       (valid_roles & sanitized_roles).inject(0) { |sum, role| sum + 2**valid_roles.index(role) }
     end
-    
+
+    def mask_values_for(*roles)
+      indexes = (roles.map(&:to_sym) & valid_roles).map { |role| valid_roles.index(role) }
+      if indexes.length > 0
+        indexes.map do |index|
+          sig_bit = 2**index
+          (0..2**valid_roles.length).map do |i|
+            (i & sig_bit).zero? ? nil : i
+          end.compact
+        end.reduce(:&)
+      end
+    end
+
     protected
 
     # :call-seq:
@@ -40,7 +52,7 @@ module RoleModel
         self.define_dynamic_queries(self.valid_roles)
       end
     end
-    
+
     # Defines dynamic queries for :role
     #   #is_<:role>?
     #   #<:role>?

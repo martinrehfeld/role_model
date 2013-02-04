@@ -594,4 +594,34 @@ describe RoleModel do
     end
   end
 
+  describe ".mask_values_for" do
+    subject { model_class.new }
+
+    it "should return an array of valid role_mask values for the given role" do
+      subject.class.mask_values_for(:foo).should == [1, 3, 5, 7]
+      subject.class.mask_values_for(:bar).should == [2, 3, 6, 7]
+      subject.class.mask_values_for(:third).should == [4, 5, 6, 7]
+    end
+
+    it "should return the role mask of an array of roles" do
+      subject.class.mask_values_for(:foo, :bar).should == [3, 7]
+      subject.class.mask_values_for(:foo, :third).should == [5, 7]
+      subject.class.mask_values_for(:foo, :bar, :third).should == [7]
+    end
+
+    it "should work with strings" do
+      subject.class.mask_values_for("foo").should == [1, 3, 5, 7]
+      subject.class.mask_values_for("foo", "bar").should == [3, 7]
+      subject.class.mask_values_for("foo", "third").should == [5, 7]
+    end
+
+    it "should return the role mask of the existing roles" do
+      subject.class.mask_values_for(:foo, :quux).should == [1, 3, 5, 7]
+    end
+
+    it "should return nil when the passed in role is invalid" do
+      subject.class.mask_values_for(:quux).should == nil
+    end
+  end
+
 end
