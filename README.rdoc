@@ -82,6 +82,16 @@ http://github.com/stffn/declarative_authorization .
 == Installation
 
   gem install role_model
+  
+In addition to installing the gems, the column roles_mask has to be added to the users table, as in this migration
+
+  class AddRolesMaskToUser < ActiveRecord::Migration
+    def change
+      add_column :users, :roles_mask, :integer
+    end
+  end
+
+Substitute :users for the name of your User table.
 
 == Reasoning
 
