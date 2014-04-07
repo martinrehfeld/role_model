@@ -14,10 +14,15 @@ module RoleModel
       model_instance.roles = roles if model_instance
       self
     end
+
     alias_method :<<, :add
 
     def delete(role)
-      model_instance.roles = super(role.to_sym)
+      if role.is_a? Array
+        model_instance.roles = subtract(role)
+      else
+        model_instance.roles = super(role.to_sym)
+      end
       self
     end
 

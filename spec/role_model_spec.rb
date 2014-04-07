@@ -216,6 +216,18 @@ describe RoleModel do
         subject.should have(1).roles
       end
 
+      it "should delete existing roles given as an array of symbols" do
+        subject.roles.delete [:foo, :bar]
+        expect(subject.roles).not_to include([:foo, :bar])
+        expect(subject).to have(0).roles
+      end
+
+      it "should delete existing roles given as an array of strings" do
+        subject.roles.delete %w(foo bar)
+        expect(subject.roles).not_to include([:foo, :bar])
+        expect(subject).to have(0).roles
+      end
+
       it "should not change anything if a non existing role is given" do
         subject.roles.delete(:third)
         subject.roles.should include(:foo, :bar)
@@ -487,7 +499,7 @@ describe RoleModel do
   end
 
   context "inheritance" do
-    let(:superclass_instance) {  model_class.new }
+    let(:superclass_instance) { model_class.new }
     let(:inherited_model_class) { Class.new(model_class) }
     subject { inherited_model_class.new }
 
@@ -538,7 +550,7 @@ describe RoleModel do
   end
 
   context "independent usage" do
-    let(:model_instance) {  model_class.new }
+    let(:model_instance) { model_class.new }
     let(:other_model_class) { Class.new }
     before(:each) do
       other_model_class.instance_eval do
