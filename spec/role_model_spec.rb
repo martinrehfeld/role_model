@@ -216,12 +216,6 @@ describe RoleModel do
         subject.should have(1).roles
       end
 
-      it "should delete a existing single role given as an array" do
-        subject.roles.delete [:foo]
-        expect(subject.roles).not_to include([:foo])
-        expect(subject).to have(1).roles
-      end
-
       it "should delete existing roles given as an array of symbols" do
         subject.roles.delete [:foo, :bar]
         expect(subject.roles).not_to include([:foo, :bar])
