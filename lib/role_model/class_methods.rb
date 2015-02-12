@@ -23,7 +23,11 @@ module RoleModel
 
       (valid_roles & sanitized_roles).inject(0) { |sum, role| sum + 2**valid_roles.index(role) }
     end
-    
+
+    def roles_from_mask(mask)
+      valid_roles.reject { |role| (mask.to_i & 2**valid_roles.index(role)).zero? }
+    end
+
     protected
 
     # :call-seq:
