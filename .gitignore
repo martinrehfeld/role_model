@@ -24,3 +24,4 @@ pkg
 ## PROJECT::SPECIFIC
 .rvmrc
 Gemfile.lock
+vendor
