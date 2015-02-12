@@ -51,6 +51,31 @@ describe RoleModel do
     end
   end
 
+  describe '.roles_from_mask(mask)' do
+    subject { model_class.roles_from_mask(mask) }
+
+    before do
+      model_class.instance_eval do
+        include RoleModel
+        roles :foo, :bar, :third
+      end
+    end
+
+    context 'when roles_mask is 0' do
+      let(:mask) { 0 }
+      it 'returns empty set' do
+        subject.should eq  []
+      end
+    end
+
+    context 'when valid roles_mask' do
+      let(:mask) { 3 }
+      it 'returns the list of roles associated with a roles_mask' do
+        subject.should eq  [:foo, :bar]
+      end
+    end
+  end
+
   [:roles, :role_symbols].each do |role_query_method|
     describe "##{role_query_method}" do
       let(:model) { model_class.new }
