@@ -58,6 +58,10 @@ It works like this:
   # ... check for individual roles
   >> u.has_role? :author  # has_role? is also aliased to is?
   => false
+
+  # ... check for individual roles with dynamic methods (set dynamic: false to disable)
+  >> u.is_author?
+  => false
   
   # ... check for multiple roles
   >> u.has_any_role? :author, :manager  # has_any_role? is also aliased to is_any_of?
