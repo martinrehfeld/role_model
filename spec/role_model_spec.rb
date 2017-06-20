@@ -84,7 +84,7 @@ describe RoleModel do
       it "should return the assigned roles as symbols" do
         model.roles = [:foo, :bar]
         subject.should include(:foo, :bar)
-        subject.should have(2).elements
+        expect(subject.size).to eq(2)
       end
 
       it "should be empty when no roles have been assigned" do
@@ -104,43 +104,43 @@ describe RoleModel do
     it "should accept an array of symbols" do
       subject.roles = [:foo, :bar]
       subject.roles.should include(:foo, :bar)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
       subject.roles = [:bar]
       subject.roles.should include(:bar)
-      subject.should have(1).roles
+      expect(subject.roles.size).to eq(1)
     end
 
     it "should accept an array of strings" do
       subject.roles = %w(foo bar)
       subject.roles.should include(:foo, :bar)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
       subject.roles = ['bar']
       subject.roles.should include(:bar)
-      subject.should have(1).roles
+      expect(subject.roles.size).to eq(1)
     end
 
     it "should accept a single symbol" do
       subject.roles = :foo
       subject.roles.should include(:foo)
-      subject.should have(1).roles
+      expect(subject.roles.size).to eq(1)
     end
 
     it "should accept a single string" do
       subject.roles = 'foo'
       subject.roles.should include(:foo)
-      subject.should have(1).roles
+      expect(subject.roles.size).to eq(1)
     end
 
     it "should accept multiple arguments as symbols" do
       subject.send(:roles=, :foo, :bar)
       subject.roles.should include(:foo, :bar)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
     end
 
     it "should accept multiple arguments as strings" do
       subject.send(:roles=, 'foo', 'bar')
       subject.roles.should include(:foo, :bar)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
     end
 
     it "should silently ignore undefined roles" do
@@ -152,20 +152,20 @@ describe RoleModel do
       before(:each) do
         subject.roles = :foo
         subject.roles.should include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq(1)
       end
 
       it "should set set assigned roles regardless overwriting previouly assigned roles" do
         subject.roles = :bar
         subject.roles.should include(:bar)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq(1)
       end
 
       it "should allow reassigning the #roles value aka Roles object" do
         subject.roles << :bar
         subject.roles = subject.roles
         subject.roles.should include(:foo, :bar)
-        subject.should have(2).roles
+        expect(subject.roles.size).to eq(2)
       end
     end
   end
@@ -181,17 +181,18 @@ describe RoleModel do
       it "should add a role given as a symbol" do
         subject.roles << :third
         subject.roles.should include(:foo, :bar, :third)
-        subject.should have(3).roles
+        expect(subject.roles.size).to eq(3)
       end
 
       it "should add a role given as a string" do
         subject.roles << 'third'
         subject.roles.should include(:foo, :bar, :third)
-        subject.should have(3).roles
+        expect(subject.roles.size).to eq(3)
       end
 
       it "should not show a role twice in the return value" do
-        (subject.roles << :foo).should have(2).roles
+        subject.roles << :foo
+        expect(subject.roles.size).to eq(2)
       end
     end
 
@@ -199,19 +200,19 @@ describe RoleModel do
       it "should add a single symbol" do
         subject.roles << :foo
         subject.roles.should include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq(1)
       end
 
       it "should add a single string" do
         subject.roles << 'foo'
         subject.roles.should include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq(1)
       end
 
       it "should allow chaining of <<" do
         subject.roles << :foo << :bar
         subject.roles.should include(:foo, :bar)
-        subject.should have(2).roles
+        expect(subject.roles.size).to eq(2)
       end
 
       it "should silently ignore undefined roles" do
@@ -232,43 +233,43 @@ describe RoleModel do
       it "should delete a existing role given as a symbol" do
         subject.roles.delete(:foo)
         subject.roles.should_not include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq 1
       end
 
       it "should delete a existing role given as a string" do
         subject.roles.delete('foo')
         subject.roles.should_not include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq 1
       end
 
       it "should delete existing roles given as an array of symbols" do
         subject.roles.delete [:foo, :bar]
         expect(subject.roles).not_to include([:foo, :bar])
-        expect(subject).to have(0).roles
+        expect(subject.roles.size).to eq 0
       end
 
       it "should delete existing roles given as an array of strings" do
         subject.roles.delete %w(foo bar)
         expect(subject.roles).not_to include([:foo, :bar])
-        expect(subject).to have(0).roles
+        expect(subject.roles.size).to eq(0)
       end
 
       it "should not change anything if a non existing role is given" do
         subject.roles.delete(:third)
         subject.roles.should include(:foo, :bar)
-        subject.should have(2).roles
+        expect(subject.roles.size).to eq(2)
       end
     end
 
     context "without roles assigned" do
       it "should have 0 roles if a role is given as a symbol" do
         subject.roles.delete(:foo)
-        subject.should have(0).roles
+        expect(subject.roles.size).to eq(0)
       end
 
       it "should have 0 roles if a role is given as a string" do
         subject.roles.delete('foo')
-        subject.should have(0).roles
+        expect(subject.roles.size).to eq(0)
       end
     end
   end
@@ -284,31 +285,31 @@ describe RoleModel do
       it "should delete a existing role given as a symbol" do
         subject.roles -= [:foo]
         subject.roles.should_not include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq(1)
       end
 
       it "should delete a existing role given as a string" do
         subject.roles -= ['foo']
         subject.roles.should_not include(:foo)
-        subject.should have(1).roles
+        expect(subject.roles.size).to eq(1)
       end
 
       it "should not change anything if a non existing role is given" do
         subject.roles -= [:third]
         subject.roles.should include(:foo, :bar)
-        subject.should have(2).roles
+        expect(subject.roles.size).to eq(2)
       end
     end
 
     context "without roles assigned" do
       it "should have 0 roles if a role is given as a symbol" do
         subject.roles -= [:foo]
-        subject.should have(0).roles
+        expect(subject.roles.size).to eq(0)
       end
 
       it "should have 0 roles if a role is given as a string" do
         subject.roles -= ['foo']
-        subject.should have(0).roles
+        expect(subject.roles.size).to eq(0)
       end
     end
   end
@@ -320,21 +321,21 @@ describe RoleModel do
 
         it "should return true when the given role was assigned" do
           subject.roles = :foo
-          subject.send(check_role_assignment_method, :foo).should be_true
+          subject.send(check_role_assignment_method, :foo).should be true
         end
 
         it "should return false when the given role was not assigned" do
           subject.roles = :bar
-          subject.send(check_role_assignment_method, :foo).should be_false
+          subject.send(check_role_assignment_method, :foo).should be false
         end
 
         it "should return false when no role was assigned" do
-          subject.send(check_role_assignment_method, :foo).should be_false
-          subject.send(check_role_assignment_method, :bar).should be_false
+          subject.send(check_role_assignment_method, :foo).should be false
+          subject.send(check_role_assignment_method, :bar).should be false
         end
 
         it "should return false when asked for an undefined role" do
-          subject.send(check_role_assignment_method, :baz).should be_false
+          subject.send(check_role_assignment_method, :baz).should be false
         end
       end
     end
@@ -345,19 +346,19 @@ describe RoleModel do
 
     it "should return true when the given role was assigned" do
       subject.roles = :foo
-      subject.is_foo?.should be_true
-      subject.foo?.should be_true
+      subject.is_foo?.should be true
+      subject.foo?.should be true
     end
 
     it "should return false when the given role was not assigned" do
       subject.roles = :bar
-      subject.is_foo?.should be_false
-      subject.foo?.should be_false
+      subject.is_foo?.should be false
+      subject.foo?.should be false
     end
 
     it "should return false when no role was assigned" do
-      subject.is_foo?.should be_false
-      subject.bar?.should be_false
+      subject.is_foo?.should be false
+      subject.bar?.should be false
     end
 
     it "should throw NoMethodError when asked for an undefined role" do
@@ -402,13 +403,13 @@ describe RoleModel do
       model = klass.new
       model.roles = [:foo, :bar, :baz]
 
-      model.foo?.should be_false
+      model.foo?.should be false
 
-      model.bar?.should be_false
-      model.is_bar?.should be_true
+      model.bar?.should be false
+      model.is_bar?.should be true
 
-      model.is_baz?.should be_false
-      model.baz?.should be_true
+      model.is_baz?.should be false
+      model.baz?.should be true
     end
   end
 
@@ -419,12 +420,12 @@ describe RoleModel do
 
         it "should return true when any of the given roles was assigned" do
           subject.roles = [:foo, :baz]
-          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+          subject.send(check_role_assignment_method, :foo, :bar).should be true
         end
 
         it "should return false when none of the given roles were assigned" do
           subject.roles = [:foo, :bar]
-          subject.send(check_role_assignment_method, :baz, :quux).should be_false
+          subject.send(check_role_assignment_method, :baz, :quux).should be false
         end
       end
     end
@@ -435,22 +436,22 @@ describe RoleModel do
 
         it "returns true when the assigned roles include the given roles" do
           subject.roles = [:foo, :bar, :third]
-          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+          subject.send(check_role_assignment_method, :foo, :bar).should be true
         end
 
         it "should return true when all of the given roles were assigned" do
           subject.roles = [:foo, :bar]
-          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+          subject.send(check_role_assignment_method, :foo, :bar).should be true
         end
 
         it "should return false when only some of the given roles were assigned" do
           subject.roles = [:foo, :bar]
-          subject.send(check_role_assignment_method, :bar, :baz).should be_false
+          subject.send(check_role_assignment_method, :bar, :baz).should be false
         end
 
         it "should return false when none of the given roles were assigned" do
           subject.roles = [:foo, :bar]
-          subject.send(check_role_assignment_method, :baz, :quux).should be_false
+          subject.send(check_role_assignment_method, :baz, :quux).should be false
         end
       end
     end
@@ -463,17 +464,17 @@ describe RoleModel do
 
         it "returns false when the given roles are a subset of those assigned" do
           subject.roles = [:foo, :bar, :third]
-          subject.send(check_role_assignment_method, :foo, :bar).should be_false
+          subject.send(check_role_assignment_method, :foo, :bar).should be false
         end
 
         it "returns true when the given roles exactly match those assigned" do
           subject.roles = [:foo, :bar]
-          subject.send(check_role_assignment_method, :foo, :bar).should be_true
+          subject.send(check_role_assignment_method, :foo, :bar).should be true
         end
 
         it "should return false when only some of the given roles were assigned" do
           subject.roles = [:foo, :bar]
-          subject.send(check_role_assignment_method, :bar, :baz).should be_false
+          subject.send(check_role_assignment_method, :bar, :baz).should be false
         end
       end
     end
@@ -498,11 +499,11 @@ describe RoleModel do
 
         it "should return false when a role was assigned" do
           subject.roles = :foo
-          subject.send(check_role_assignment_method, :foo).should be_false
+          subject.send(check_role_assignment_method, :foo).should be false
         end
 
         it "should return false when no role was assigned" do
-          subject.send(check_role_assignment_method, :foo).should be_false
+          subject.send(check_role_assignment_method, :foo).should be false
         end
 
       end
@@ -540,13 +541,13 @@ describe RoleModel do
       end
       superclass_instance.roles = [:foo, :bar, :quux, :quuux]
       superclass_instance.roles.should include(:foo, :bar)
-      superclass_instance.roles.should have(2).roles
+      expect(superclass_instance.roles.size).to eq(2)
     end
 
     it "should inherit the valid roles" do
       subject.roles = [:foo, :bar, :quux, :quuux]
       subject.roles.should include(:foo, :bar)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
     end
 
     it "should not inherit the assigned roles" do
@@ -559,7 +560,7 @@ describe RoleModel do
       end
       subject.roles = [:foo, :bar, :quux, :quuux]
       subject.roles.should include(:quux, :quuux)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
       subject.roles_mask.should == 3
     end
 
@@ -569,7 +570,7 @@ describe RoleModel do
       end
       subject.roles = [:foo, :bar, :quux, :quuux]
       subject.roles.should include(:foo, :bar)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
       subject.custom_roles_mask.should == 3
     end
   end
@@ -590,14 +591,14 @@ describe RoleModel do
       model_instance.roles = [:foo, :bar, :quux, :quuux]
       model_instance.roles.should include(:foo)
       model_instance.roles.should include(:bar)
-      model_instance.should have(2).roles
+      expect(model_instance.roles.size).to be(2)
     end
 
     it "should allow using different roles in other models" do
       subject.roles = [:foo, :bar, :quux, :quuux]
       subject.roles.should include(:quux)
       subject.roles.should include(:quuux)
-      subject.should have(2).roles
+      expect(subject.roles.size).to eq(2)
     end
   end
 
