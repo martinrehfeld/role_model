@@ -70,7 +70,7 @@ It works like this:
   >> u.roles_mask
   => 3
   
-  # see the role mask for a certain role(s)
+  # see the role mask for certain role(s)
   >> User.mask_for :admin, :author
   => 5
 
