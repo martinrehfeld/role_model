@@ -192,7 +192,7 @@ describe RoleModel do
 
       it "should not show a role twice in the return value" do
         subject.roles << :foo
-        expect(subject.roles.size).to be 2
+        expect(subject.roles.size).to eq(2)
       end
     end
 
@@ -541,7 +541,7 @@ describe RoleModel do
       end
       superclass_instance.roles = [:foo, :bar, :quux, :quuux]
       superclass_instance.roles.should include(:foo, :bar)
-      expect(superclass_instance.roles.size).to be 2
+      expect(superclass_instance.roles.size).to eq(2)
     end
 
     it "should inherit the valid roles" do

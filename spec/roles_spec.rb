@@ -9,7 +9,8 @@ describe RoleModel::Roles do
     model_instance.stub(:roles=)
   end
 
-  it { subject.model_instance.should equal(model_instance) }
+  specify { subject.model_instance.should equal(model_instance) }
+
   it { should include(:foo, :bar) }
   it { should respond_to(:each) }
 
@@ -46,7 +47,7 @@ describe RoleModel::Roles do
     it "should remove the given enum to the model_instance.roles by re-assigning all roles" do
       model_instance.should_receive(:roles=).with(subject)
       subject.subtract([:foo, :bar])
-      expect(subject.size).to be 0
+      expect(subject.size).to eq(0)
     end
   end
 end
