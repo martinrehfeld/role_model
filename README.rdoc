@@ -50,8 +50,8 @@ It works like this:
   >> u.is_manager = true # If :prefix => "is_"
   => [:admin, :manager]
 
-  # removing roles
-  >> u.roles.remove(:manager)
+  # deleting roles
+  >> u.roles.delete(:manager)
   >> u.manager = false # if dynamic is enabled (by default) or...
   >> u.is_manager = false # If :prefix => "is_"
   => [:admin]
