@@ -3,13 +3,15 @@ require 'spec_helper'
 describe RoleModel do
 
   let(:model_class) { Class.new }
+  let(:role_options) { {} }
 
   before(:each) do
+  options = role_options
     model_class.instance_eval do
       attr_accessor :roles_mask
       attr_accessor :custom_roles_mask
       include RoleModel
-      roles :foo, :bar, :third
+      roles :foo, :bar, :third, options
     end
   end
 
@@ -345,25 +347,21 @@ describe RoleModel do
     subject { model_class.new }
 
     it "should return true when the given role was assigned" do
-      subject.roles = :foo
-      subject.is_foo?.should be true
+      subject.foo = true
       subject.foo?.should be true
     end
 
     it "should return false when the given role was not assigned" do
-      subject.roles = :bar
-      subject.is_foo?.should be false
+      subject.foo = false
       subject.foo?.should be false
     end
 
     it "should return false when no role was assigned" do
-      subject.is_foo?.should be false
       subject.bar?.should be false
     end
 
     it "should throw NoMethodError when asked for an undefined role" do
       lambda { subject.baz? }.should raise_error(NoMethodError)
-      lambda { subject.is_baz? }.should raise_error(NoMethodError)
     end
 
     it "should not define dynamic finders when opting out" do
@@ -390,7 +388,7 @@ describe RoleModel do
         include RoleModel
         roles :foo, :bar, :baz
 
-        def is_baz?
+        def baz?
           return false
         end
 
@@ -406,11 +404,35 @@ describe RoleModel do
       model.foo?.should be false
 
       model.bar?.should be false
-      model.is_bar?.should be true
+      model.roles.should include(:bar)
 
-      model.is_baz?.should be false
-      model.baz?.should be true
+      model.baz?.should be false
+      model.roles.should include(:baz)
     end
+
+    context 'when prefix set to "is_"' do
+      let(:role_options) { {prefix: 'is_'} }
+
+      it "should return true when the given role was assigned" do
+        subject.is_foo = true
+        subject.is_foo?.should be true
+      end
+
+      it "should return false when the given role was not assigned" do
+        subject.is_foo = false
+        subject.is_foo?.should be false
+      end
+
+      it "should return false when no role was assigned" do
+        subject.is_foo?.should be false
+      end
+
+      it "should throw NoMethodError when asked for an undefined role" do
+        lambda { subject.baz? }.should raise_error(NoMethodError)
+      end
+
+    end
+
   end
 
   context "query for multiple roles" do
