@@ -27,7 +27,9 @@ It works like this:
     
     # declare the valid roles -- do not change the order if you add more
     # roles later, always append them at the end!
-    roles :admin, :manager, :author
+    #
+    # Set dynamic: false to skip creating the dynamic methods for the roles.
+    roles :admin, :manager, :author, prefix: "is_"
   end
   
   #
@@ -40,11 +42,20 @@ It works like this:
   # role assignment
   >> u.roles = [:admin]  # ['admin'] works as well
   => [:admin]
-  
-  # adding roles (remove via delete or re-assign)
+
+  # adding roles
   >> u.roles << :manager
+  >> u.roles.add(:manager)
+  >> u.manager = true # if dynamic is enabled (by default) or...
+  >> u.is_manager = true # If :prefix => "is_"
   => [:admin, :manager]
-  
+
+  # removing roles
+  >> u.roles.remove(:manager)
+  >> u.manager = false # if dynamic is enabled (by default) or...
+  >> u.is_manager = false # If :prefix => "is_"
+  => [:admin]
+
   # querying roles...
   
   # get all valid roles that have been declared
@@ -60,7 +71,8 @@ It works like this:
   => false
 
   # ... check for individual roles with dynamic methods (set dynamic: false to disable)
-  >> u.is_author?
+  >> u.author? # Or...
+  >> u.is_author? # If :prefix => "is_"
   => false
   
   # ... check for multiple roles
