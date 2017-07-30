@@ -6,12 +6,11 @@ describe RoleModel do
   let(:role_options) { {} }
 
   before(:each) do
-  options = role_options
     model_class.instance_eval do
       attr_accessor :roles_mask
       attr_accessor :custom_roles_mask
       include RoleModel
-      roles :foo, :bar, :third, options
+      roles :foo, :bar, :third, role_options
     end
   end
 
