@@ -6,7 +6,8 @@ describe RoleModel do
   let(:role_options) { {} }
 
   before(:each) do
-    model_class.instance_eval do
+    role_options = self.role_options # must be defined outside scope.
+    model_class.class_eval do
       attr_accessor :roles_mask
       attr_accessor :custom_roles_mask
       include RoleModel
